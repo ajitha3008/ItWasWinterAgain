@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'Ajitha3008'
-            keyPassword '$aAjJ123'
-            storeFile file('C:/Users/S92/Desktop/AjithaPersonalApps.jks')
-            storePassword '$aAjJ123'
+            keyAlias 'XXXXXX'
+            keyPassword 'XXXXXX'
+            storePassword 'XXXXXX'
+            storeFile file('/Users/ajitha3008/Downloads/AjithaPersonalApps.jks')
         }
     }
     compileSdkVersion 26
@@ -35,5 +35,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.android.gms:play-services-ads:11.6.0'
     testCompile 'junit:junit:4.12'
 }

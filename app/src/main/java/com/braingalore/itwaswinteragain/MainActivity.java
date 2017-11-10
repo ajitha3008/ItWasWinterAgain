@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.braingalore.itwaswinteragain.curl.CurlPage;
 import com.braingalore.itwaswinteragain.curl.CurlView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,13 +34,15 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String INDEX = "index";
 
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getString(R.string.app_name));
+        //toolbar.setTitle(getResources().getString(R.string.app_name));
         toolbar.inflateMenu(R.menu.menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -81,12 +85,19 @@ public class MainActivity extends AppCompatActivity {
         mCurlView.setSizeChangedObserver(new SizeChangedObserver());
         mCurlView.setCurrentIndex(sharedpreferences.getInt(INDEX, 0));
         mCurlView.setBackgroundColor(getResources().getColor(R.color.curl_bg_color));
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mCurlView.onPause();
+        if (mAdView != null) {
+            mAdView.pause();
+        }
         sharedpreferences.edit().putInt(INDEX, mCurlView.getCurrentIndex()).commit();
     }
 
@@ -94,6 +105,17 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         mCurlView.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     /**
